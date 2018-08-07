@@ -1,0 +1,278 @@
+<html>
+<head>
+<meta charset='utf-8'>
+<title>Site</title>
+<style>
+table.t1 {
+	border-top: 1px #990000 dotted;
+	border-bottom: 1px #990000 dotted;
+}
+th.t1 {
+	border-left: 1px #990000 dotted;
+	border-right: 1px #990000 dotted;
+}
+td.t1 {
+	border-top: 1px #009900 dotted;
+	border-left: 1px #009900 dotted;
+	border-right: 1px #009900 dotted;
+}
+table.t2 {
+	border-top: 1px #6311C6 dotted;
+	border-bottom: 1px #6311C6 dotted;
+}
+th.t2 {
+	border-left: 1px #6311C6 dotted;
+	border-right: 1px #6311C6 dotted;
+}
+td.t2 {
+	border-top: 1px #01ACBA dotted;
+	border-left: 1px #01ACBA dotted;
+	border-right: 1px #01ACBA dotted;
+}
+</style>
+
+</head>
+<!-- js: code run 848 beta-gun -->
+<body>
+
+<table width="300" class="t1">
+	<tr>
+		<th class="t1">1</th>
+		<th class="t1">2</th>
+		<th class="t1">3</th>
+	</tr>
+	<tr>
+		<td class="t1">Vasya</td>
+		<td class="t1">28.34</td>
+		<td class="t1">-15.48</td>
+	</tr>
+	<tr>
+		<td class="t1">Petya</td>
+		<td class="t1">140.02</td>
+		<td class="t1">29</td>
+	</tr>
+	<tr>
+		<td class="t1">Masha</td>
+		<td class="t1">-2.09</td>
+		<td class="t1">-37.03</td>
+	</tr>
+</table>
+    
+<div id="allButtons">
+    <button id="b1" type="button"> появится копия исходной таблицы, но с порядком полей: 1, 3, 2.  Применить для новой таблицы стили t2</button>
+    <br />
+    <button id="b2"  type="button">появится копия исходной таблицы, но с дополнительным полем  4, в котором будет сумма полей 2 и 3. Применить для новой таблицы стили t2</button>
+    <br />
+    <button id="b3"  type="button">  сохранится в cookie ключ bbb со значением, равным 43</button>
+    <br />
+    <button id="b4"  type="button">  сформируется XMLHttp-запрос на сайт «http://domain.com»,</button>
+    <br />
+    <input type="button" style="display: block"  id="b5" value="появится iframe, внутри которого будет загружен site.html(без каких-либо параметров) с исходной таблицей,  у которой будут невидимыми строки с отрицательными числами в поле 3." >
+    <br />
+    <input type="button" style="display: block"  id="b6" value="появится iframe, внутри которого будет загружен site.html(без каких-либо параметров) с исходной таблицей,  у которой будут невидимыми строки, у которых поле 1 равно «Petya»." >
+    <br />
+    <button id="b7"  type="button">будет найден комментарий, начинающийся</button>
+    <br /> <br /> <br />
+    <button id="b8"  type="button">Удалить из cookie значение 43</button>
+    <br /><br /><br /><br /><br /><br />
+</div>
+
+<script>
+	document.getElementById('b1').onclick = function(){
+        document.body.children[2].remove();
+		var table =  document.body.children[0];
+		var tableNew = document.createElement('table');
+		tableNew.className= 't2';
+        document.body.appendChild(tableNew);
+		var html = "";
+		for (var i = 0; i < table.rows.length; i++) {
+           html += '<tr>';
+           	for(var j=0;j<table.rows[i].cells.length;j++) {
+                if(i===0){
+           	    if(j===1){
+                    html += '<th class="t2">' + table.rows[i].cells[2].innerHTML + '</th>';
+
+                }
+				else {
+                    if (j===2) {
+                        html += '<th class="t2">' + table.rows[i].cells[1].innerHTML + '</th>';
+
+                    }
+                   else html += '<th class="t2">' + table.rows[i].cells[j].innerHTML + '</th>';
+                }
+				//alert(html);
+		}
+		else{
+              if(j===1){
+                 html += '<td class="t2">' + table.rows[i].cells[2].innerHTML + '</td>';
+              }
+              else {
+                 if (j===2) {
+                    html += '<td class="t2">' + table.rows[i].cells[1].innerHTML + '</td>';
+                 }
+                    else html += '<td class="t2">' + table.rows[i].cells[j].innerHTML + '</td>';
+                    }
+
+                }
+            }
+
+			html +='</tr>';
+
+			}
+			//alert(html);
+		tableNew.innerHTML = html;
+	};
+
+    document.getElementById('b2').onclick = function(){
+        document.body.children[2].remove();
+		var table =  document.body.children[0];
+        var tableNew = document.createElement('table');
+        tableNew.className= 't2';
+        document.body.appendChild(tableNew);
+        var html = "";
+        var i=0;
+        for (i=0;i<table.rows.length;i++) {
+            html += '<tr>';
+            for(var j=0;j<=table.rows[i].cells.length;j++) {
+                if(i===0){
+				if (j==3) {
+				    if(i==0) {
+                        html += '<th class="t2">' + 4 + '</th>';
+                    }
+                    else
+                        html += '<th class="t2">' + parseFloat(parseFloat(table.rows[i].cells[1].innerHTML)+parseFloat(table.rows[i].cells[2].innerHTML)).toFixed(2) + '</th>';
+                    }
+				else html += '<th class="t2">' + table.rows[i].cells[j].innerHTML + '</th>';
+
+                //alert(html);
+            }
+            else{
+             if (j==3) {
+               if(i==0) {
+                  html += '<td class="t2">' + 4 + '</td>';
+                        }
+               else
+                    html += '<td class="t2">' + parseFloat(parseFloat(table.rows[i].cells[1].innerHTML)+parseFloat(table.rows[i].cells[2].innerHTML)).toFixed(2) + '</td>';
+                        }
+               else html += '<td class="t2">' + table.rows[i].cells[j].innerHTML + '</td>';
+                }
+            }
+
+            html +='</tr>';
+
+        }
+        tableNew.innerHTML = html;
+    };
+
+    document.getElementById('b3').onclick = function() {
+		document.cookie = "bbb=43";
+        alert(document.cookie);
+    };
+    document.getElementById('b4').onclick = function() {
+		var xhr = new XMLHttpRequest();
+        xhr.open('GET', 'http://domain.com', true);
+        xhr.send();
+        if (xhr.status != 200) {
+			alert(  'Ошибка ' + xhr.status + ': ' + xhr.statusText);
+        } else {
+			alert( xhr.responseText );
+        }
+
+	};
+
+    document.getElementById('b5').onclick = function() {
+        document.body.children[2].remove();
+		var table =  document.body.children[0];
+		var iframe = document.createElement('iframe');
+		iframe.id = 'iframeID';
+		iframe.style.width = "240px";
+        iframe.style.height = "180px";
+        document.body.appendChild(iframe);
+		var html = "";
+        var i=0;
+        var iframe = document.getElementById('iframeID');
+        iframe = iframe.contentWindow || ( iframe.contentDocument.document || iframe.contentDocument);
+		iframe.document.open();
+		html = "<table class='t2'>";
+		for (i=0;i<table.rows.length;i=i+2) {
+            html += '<tr>';
+            for(var j = 0; j < table.rows[i].cells.length; j++) {
+
+                    html += '<td class="t2">' + table.rows[i].cells[j].innerHTML + '</td>';
+
+			}
+
+            html +='</tr>';
+
+        }
+        html +="</table>";
+        iframe.document.write( html);
+
+        iframe.document.close();
+
+
+    };
+
+    document.getElementById('b6').onclick = function() {
+        document.body.children[2].remove();
+        var table =  document.body.children[0];
+        var iframe = document.createElement('iframe');
+        iframe.id = 'iframeID';
+        iframe.style.width = "240px";
+        iframe.style.height = "180px";
+        document.body.appendChild(iframe);
+		var html = "";
+		var iframe = document.getElementById('iframeID');
+        iframe = iframe.contentWindow || ( iframe.contentDocument.document || iframe.contentDocument);
+        iframe.document.open();
+        html = "<table class='t2'>";
+        for (var i = 0; i < table.rows.length; i++) {
+            html += '<tr>';
+            for(var j = 0; j < table.rows[i].cells.length; j++) {
+                if(i==2){
+                    html += '<td class="t2">' + " " + '</td>';
+                }
+                else {
+                    html += '<td class="t2">' + table.rows[i].cells[j].innerHTML + '</td>';
+                }
+            }
+
+            html +='</tr>';
+
+        }
+        html +="</table>";
+        iframe.document.write( html);
+
+        iframe.document.close();
+    };
+
+    document.getElementById('b7').onclick = function() {
+        document.body.children[2].remove();
+        var re = /[<!-- js: ]+[a-zA-Z]*/ig;
+
+        var allComments = [];
+		function getElems(el) {
+
+            var chNodes, i;
+			if (el.nodeType == 8 && (el.nodeValue.match(re))) {
+                allComments.push(el.nodeValue);
+            }
+            if (el.hasChildNodes()) {
+                chNodes = el.childNodes;
+                for (i = 0; i < chNodes.length; i++) {
+                    getElems(chNodes[i]);
+                }
+            }
+        }
+        getElems(document);
+        alert (allComments);
+
+    };
+
+   document.getElementById('b8').onclick = function() {
+       document.cookie = "bbb" +'=;expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+	   alert(document.cookie);
+   };
+</script>
+</body>
+</html>
